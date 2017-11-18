@@ -15,7 +15,6 @@ public class LoginProcessing extends HttpServlet {
             if ("ok".equalsIgnoreCase(status)) {
                 WotResponse response = parseParameters(req);
                 req.setAttribute("wotResponse", response);
-                System.out.println("sending "+ response);
             } else if ("error".equalsIgnoreCase(status)) {
                 processingError(req);
             }

@@ -21,6 +21,7 @@
             out.println("\t<p>Мы получили такой токен доступа: <i>" + wotResponse.getToken() + "</i></p>");
             out.println("\t<p>Который действует до: <i>" + wotResponse.getExpiresAt().toString() + "</i></p>");
             out.println("</div>");
+            out.println("<a href=\"https://api.worldoftanks.ru/wot/account/info/?application_id=4e67660611202f132151e26f8cce5a27&access_token=" + wotResponse.getToken() + "&account_id=" + wotResponse.getAccountId() + "\">инфо</a>");
         } else {
             out.println("<p style=\"color: red;\">Возникла какая-то ошибка. Извините</p>");
         }

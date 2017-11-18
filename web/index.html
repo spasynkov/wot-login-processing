@@ -10,15 +10,11 @@
 </head>
 
 <body>
-<a href="https://api.worldoftanks.ru/wot/auth/login/?application_id=4e67660611202f132151e26f8cce5a27&redirect_uri=http://localhost:8080/login">Войти через Wargaming</a>
-<form method="POST" action="https://api.worldoftanks.ru/wot/auth/login/?application_id=4e67660611202f132151e26f8cce5a27&redirect_uri=http://localhost:8080/login">
-    <button type="submit">Войти в танки</button>
+<a href="https://api.worldoftanks.ru/wot/auth/login/?application_id=4e67660611202f132151e26f8cce5a27&redirect_uri=http://localhost:8080/login">Войти через Wargaming (GET)</a>
+<form method="POST" action="https://api.worldoftanks.ru/wot/auth/login/">
+    <input name="application_id" value="4e67660611202f132151e26f8cce5a27" hidden>
+    <input name="redirect_uri" value="http://localhost:8080/login" hidden>
+    <button type="submit">Войти в танки (POST)</button>
 </form>
-
-<form action="https://api.worldoftanks.ru/wot/auth/login/?application_id=4e67660611202f132151e26f8cce5a27&redirect_uri=http://localhost:8080/index.html" method="post">
-    <input type="text" name="data" value="" />
-    <input type="submit" />
-</form>
-
 </body>
 </html>
