@@ -4,59 +4,73 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
-/**
- * реальный парсинг ответа производится каждый раз при вызове метода getByName()
- * чем больше вызовов getByName() - тем дольше работает))
- * <p>
- * возможно, есть смысл переписать так, чтоб парсилось все за один раз, типа getByName(List<String> names)
- * <p>
- * или парсилось просто один раз при создании, и сразу создало бы объект Map в памяти с парами ключ/значение,
- * из которого брали бы просто нужные пары и передавали их во вьюху
- * <p>
- * но мне лень))
- */
 public class Parser {
     private final JsonParser parser;
-    private final JsonObject root;
+    private JsonObject root;
 
-    public Parser(String json) {
+    private Map<String, String> elements = new LinkedHashMap<>();
+
+    public Parser() {
         parser = new JsonParser();
-        root = parser.parse(json).getAsJsonObject();
+    }
+
+    public Parser(String jsonString) {
+        this();
+        root = parser.parse(jsonString).getAsJsonObject();
+    }
+
+    public void setJsonString(String jsonString) {
+        root = parser.parse(jsonString).getAsJsonObject();
     }
 
     public String getByName(String elementName) {
-        JsonElement element = findElement(root, elementName);
-        if (element != null) {
-            if (element.isJsonPrimitive()) return element.getAsString();
-            else return "Failed to get the value (maybe not a primitive)";
-        }
-
-        return "No such element found";
+        return elements.get(elementName);
     }
 
-    private JsonElement findElement(JsonElement root, String name) {
-        // перебираем только составные объекты, игнорируя примитивы (они проверены на шаге раньше)
-        if (root.isJsonObject()) {
-            JsonObject jsonObject = root.getAsJsonObject();
-            Set<Map.Entry<String, JsonElement>> set = jsonObject.entrySet();
+    public void parse() {
+        parse(root);
+    }
 
-            // сначала проходимся по всем элементам на этом уровне
-            for (Map.Entry<String, JsonElement> entry : set) {
-                if (name.equalsIgnoreCase(entry.getKey())) {
-                    return entry.getValue();
-                }
-            }
+    public void parse(String jsonString) {
+        setJsonString(jsonString);
+        parse();
+    }
 
-            // если дошли до этих строк - значит на этом уровне нет нужного элемента.
-            // углубляемся рекурсивно в каждую ветку
-            for (Map.Entry<String, JsonElement> entry : set) {
-                JsonElement element = findElement(entry.getValue(), name);
-                if (element != null) return element;
+    private void parse(JsonObject root) {
+        JsonObject object = root.getAsJsonObject();
+
+        String key;
+        JsonElement value;
+        for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+
+            if (value.isJsonObject()) {
+                put(key, null);
+                parse(value.getAsJsonObject());
+            } else if (value.isJsonNull()) {
+                put(key, null);
+            } else {
+                put(key, value.getAsString());
             }
         }
-        return null;
+    }
+
+    private void put(String key, String value) {
+        String previousValue = elements.put(key, value);
+        if (previousValue != null) {
+            // throw new ParseException("Duplicate element found with name '" + key + "'");
+            System.err.println("Duplicate element found with name '" + key + "'");
+            elements.put(key, "Duplicate elements found");
+        }
+    }
+
+    public class ParseException extends RuntimeException {
+        private ParseException(String message) {
+            super(message);
+        }
     }
 }

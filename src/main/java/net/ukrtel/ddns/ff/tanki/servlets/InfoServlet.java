@@ -34,6 +34,7 @@ public class InfoServlet extends HttpServlet {
 
         // создаем парсер для разбора json-a (смотри описание класса, там можно его улучшить)
         Parser parser = new Parser(jsonResponse);
+        parser.parse();
 
         // считываем данные из разобранного json-а
         Map<String, String> properties = new LinkedHashMap<>();     // храним в порядке добавления
