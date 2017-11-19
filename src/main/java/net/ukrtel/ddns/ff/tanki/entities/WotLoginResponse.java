@@ -1,18 +1,18 @@
-package net.ukrtel.ddns.ff.tanki;
+package net.ukrtel.ddns.ff.tanki.entities;
 
 import java.util.Date;
 
-public class WotResponse {
+public class WotLoginResponse {
     private String status;
     private String token;
     private String nickname;
     private long accountId;
     private Date expiresAt;
 
-    public WotResponse() {
+    public WotLoginResponse() {
     }
 
-    public WotResponse(String status, String token, String nickname, long accountId, Date expiresAt) {
+    public WotLoginResponse(String status, String token, String nickname, long accountId, Date expiresAt) {
         this.status = status;
         this.token = token;
         this.nickname = nickname;
@@ -65,7 +65,7 @@ public class WotResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WotResponse that = (WotResponse) o;
+        WotLoginResponse that = (WotLoginResponse) o;
 
         if (accountId != that.accountId) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
@@ -86,7 +86,7 @@ public class WotResponse {
 
     @Override
     public String toString() {
-        return "WotResponse{" +
+        return "WotLoginResponse{" +
                 "status='" + status + '\'' +
                 ", token='" + token + '\'' +
                 ", nickname='" + nickname + '\'' +
