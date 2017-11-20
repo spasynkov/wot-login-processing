@@ -14,16 +14,8 @@ public class WotAccountInfoResponse {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Meta getMeta() {
         return meta;
-    }
-
-    public void setMeta(Meta meta) {
-        this.meta = meta;
     }
 
     public List<User> getUsersData() {
@@ -35,8 +27,24 @@ public class WotAccountInfoResponse {
         return usersData;
     }
 
-    public void setData(Map<String, UserDetails> data) {
-        this.data = data;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WotAccountInfoResponse)) return false;
+
+        WotAccountInfoResponse that = (WotAccountInfoResponse) o;
+
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        if (meta != null ? !meta.equals(that.meta) : that.meta != null) return false;
+        return getUsersData() != null ? usersData.equals(that.usersData) : that.usersData == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = status != null ? status.hashCode() : 0;
+        result = 31 * result + (meta != null ? meta.hashCode() : 0);
+        result = 31 * result + (getUsersData() != null ? usersData.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -44,23 +52,7 @@ public class WotAccountInfoResponse {
         return "WotAccountInfoResponse{" +
                 "status='" + status + '\'' +
                 ", meta=" + meta +
-                ", users=" + usersData +
+                ", usersData=" + getUsersData() +
                 '}';
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

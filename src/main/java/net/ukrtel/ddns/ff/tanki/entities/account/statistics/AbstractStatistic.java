@@ -146,6 +146,77 @@ public abstract class AbstractStatistic {
         return tanking_factor;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractStatistic)) return false;
+
+        AbstractStatistic that = (AbstractStatistic) o;
+
+        if (spotted != that.spotted) return false;
+        if (battles_on_stunning_vehicles != that.battles_on_stunning_vehicles) return false;
+        if (direct_hits_received != that.direct_hits_received) return false;
+        if (explosion_hits != that.explosion_hits) return false;
+        if (piercings_received != that.piercings_received) return false;
+        if (piercings != that.piercings) return false;
+        if (xp != that.xp) return false;
+        if (survived_battles != that.survived_battles) return false;
+        if (dropped_capture_points != that.dropped_capture_points) return false;
+        if (hits_percents != that.hits_percents) return false;
+        if (draws != that.draws) return false;
+        if (battles != that.battles) return false;
+        if (damage_received != that.damage_received) return false;
+        if (frags != that.frags) return false;
+        if (stun_number != that.stun_number) return false;
+        if (capture_points != that.capture_points) return false;
+        if (stun_assisted_damage != that.stun_assisted_damage) return false;
+        if (hits != that.hits) return false;
+        if (battle_avg_xp != that.battle_avg_xp) return false;
+        if (wins != that.wins) return false;
+        if (losses != that.losses) return false;
+        if (damage_dealt != that.damage_dealt) return false;
+        if (no_damage_direct_hits_received != that.no_damage_direct_hits_received) return false;
+        if (shots != that.shots) return false;
+        if (explosion_hits_received != that.explosion_hits_received) return false;
+        if (Double.compare(that.tanking_factor, tanking_factor) != 0) return false;
+        return statisticSectionName.equals(that.statisticSectionName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = statisticSectionName.hashCode();
+        result = 31 * result + (int) (spotted ^ (spotted >>> 32));
+        result = 31 * result + (int) (battles_on_stunning_vehicles ^ (battles_on_stunning_vehicles >>> 32));
+        result = 31 * result + (int) (direct_hits_received ^ (direct_hits_received >>> 32));
+        result = 31 * result + (int) (explosion_hits ^ (explosion_hits >>> 32));
+        result = 31 * result + (int) (piercings_received ^ (piercings_received >>> 32));
+        result = 31 * result + (int) (piercings ^ (piercings >>> 32));
+        result = 31 * result + (int) (xp ^ (xp >>> 32));
+        result = 31 * result + (int) (survived_battles ^ (survived_battles >>> 32));
+        result = 31 * result + (int) (dropped_capture_points ^ (dropped_capture_points >>> 32));
+        result = 31 * result + (int) (hits_percents ^ (hits_percents >>> 32));
+        result = 31 * result + (int) (draws ^ (draws >>> 32));
+        result = 31 * result + (int) (battles ^ (battles >>> 32));
+        result = 31 * result + (int) (damage_received ^ (damage_received >>> 32));
+        result = 31 * result + (int) (frags ^ (frags >>> 32));
+        result = 31 * result + (int) (stun_number ^ (stun_number >>> 32));
+        result = 31 * result + (int) (capture_points ^ (capture_points >>> 32));
+        result = 31 * result + (int) (stun_assisted_damage ^ (stun_assisted_damage >>> 32));
+        result = 31 * result + (int) (hits ^ (hits >>> 32));
+        result = 31 * result + (int) (battle_avg_xp ^ (battle_avg_xp >>> 32));
+        result = 31 * result + (int) (wins ^ (wins >>> 32));
+        result = 31 * result + (int) (losses ^ (losses >>> 32));
+        result = 31 * result + (int) (damage_dealt ^ (damage_dealt >>> 32));
+        result = 31 * result + (int) (no_damage_direct_hits_received ^ (no_damage_direct_hits_received >>> 32));
+        result = 31 * result + (int) (shots ^ (shots >>> 32));
+        result = 31 * result + (int) (explosion_hits_received ^ (explosion_hits_received >>> 32));
+        temp = Double.doubleToLongBits(tanking_factor);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
     protected void populateFields(Map<String, Double> stats) {
         List<Field> fields = new LinkedList<>();
         Class classs = this.getClass();
@@ -195,8 +266,7 @@ public abstract class AbstractStatistic {
             try {
                 result = classs.getDeclaredField(fieldName);
                 return result;
-            } catch (NoSuchFieldException e) {
-                //e.printStackTrace();
+            } catch (NoSuchFieldException ignored) {
             }
         } while ((classs = classs.getSuperclass()) != null);
 

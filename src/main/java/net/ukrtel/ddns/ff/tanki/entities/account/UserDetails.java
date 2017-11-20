@@ -17,102 +17,45 @@ public class UserDetails {
     private Long account_id;
     private Long created_at;
     private Long updated_at;
-    @SerializedName("private")          // java keyword
+    @SerializedName("private")                  // java keyword
     private PrivateData privateData;
     private int global_rating;
     private Long clan_id;
-    private Map<String, Object> statistics;
+    private Map<String, Object> statistics;     // don't delete. filled by gson
     private TotalStats stats;
     private String nickname;
     private Long logout_at;
 
-        /*public void setStatistics(Map<String, Object> statistics) {
-            int trees_cut = 0;
-            List<Statistics> stats = new LinkedList<>();;
-            List<Frag> frags = new LinkedList<>();
-
-            String key;
-            Object value;
-            for (Map.Entry<String, Object> entry : statistics.entrySet()) {
-                key = entry.getKey();
-                value = entry.getValue();
-                if ("trees_cut".equalsIgnoreCase(key)) trees_cut = (int) value;
-                else if ("frags".equalsIgnoreCase(key)) {
-                    frags = ((Map<String, Integer>) value).entrySet().stream()
-                            .map(x -> new Frag(Integer.valueOf(x.getKey()), x.getValue()))
-                            .collect(Collectors.toList());
-                } else {
-                    stats = ((Map<String, Object>) value).entrySet().stream()
-                            .map(x -> new Statistics(x.getKey(), (Map<String, Integer>)x.getValue()))
-                            .collect(Collectors.toList());
-                }
-            }
-
-            this.statistics = new TotalStats(trees_cut, stats, frags);
-        }*/
-
     public String getClient_language() {
         return client_language;
-    }
-
-    public void setClient_language(String client_language) {
-        this.client_language = client_language;
     }
 
     public Long getLast_battle_time() {
         return last_battle_time;
     }
 
-    public void setLast_battle_time(Long last_battle_time) {
-        this.last_battle_time = last_battle_time;
-    }
-
     public Long getAccount_id() {
         return account_id;
-    }
-
-    public void setAccount_id(Long account_id) {
-        this.account_id = account_id;
     }
 
     public Long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Long created_at) {
-        this.created_at = created_at;
-    }
-
     public Long getUpdated_at() {
         return updated_at;
-    }
-
-    public void setUpdated_at(Long updated_at) {
-        this.updated_at = updated_at;
     }
 
     public PrivateData getPrivateData() {
         return privateData;
     }
 
-    public void setPrivateData(PrivateData privateData) {
-        this.privateData = privateData;
-    }
-
     public int getGlobal_rating() {
         return global_rating;
     }
 
-    public void setGlobal_rating(int global_rating) {
-        this.global_rating = global_rating;
-    }
-
     public Long getClan_id() {
         return clan_id;
-    }
-
-    public void setClan_id(Long clan_id) {
-        this.clan_id = clan_id;
     }
 
     public TotalStats getStats() {
@@ -132,10 +75,6 @@ public class UserDetails {
                             .map(x -> new Frag(Integer.valueOf(x.getKey()), x.getValue().intValue()))
                             .collect(Collectors.toList());
                 } else {
-                    /*stats = ((Map<String, Object>) value).entrySet().stream()
-                            .map(x -> new Statistics(x.getKey(), (Map<String, Integer>)x.getValue()))
-                            .collect(Collectors.toList());*/
-                    //stats.add(new Statistics(key, (Map<String, Double>) value));
                     if ("all".equalsIgnoreCase(key)
                             || "team".equalsIgnoreCase(key)
                             || "regular_team".equalsIgnoreCase(key)
@@ -158,29 +97,55 @@ public class UserDetails {
         return stats;
     }
 
-    public void setStatistics(Map<String, Object> statistics) {
-        this.statistics = statistics;
-    }
-
     public String getNickname() {
         return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public Long getLogout_at() {
         return logout_at;
     }
 
-    public void setLogout_at(Long logout_at) {
-        this.logout_at = logout_at;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDetails)) return false;
+
+        UserDetails that = (UserDetails) o;
+
+        if (global_rating != that.global_rating) return false;
+        if (client_language != null ? !client_language.equals(that.client_language) : that.client_language != null)
+            return false;
+        if (last_battle_time != null ? !last_battle_time.equals(that.last_battle_time) : that.last_battle_time != null)
+            return false;
+        if (account_id != null ? !account_id.equals(that.account_id) : that.account_id != null) return false;
+        if (created_at != null ? !created_at.equals(that.created_at) : that.created_at != null) return false;
+        if (updated_at != null ? !updated_at.equals(that.updated_at) : that.updated_at != null) return false;
+        if (privateData != null ? !privateData.equals(that.privateData) : that.privateData != null) return false;
+        if (clan_id != null ? !clan_id.equals(that.clan_id) : that.clan_id != null) return false;
+        if (getStats() != null ? !stats.equals(that.stats) : that.stats != null) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        return logout_at != null ? logout_at.equals(that.logout_at) : that.logout_at == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = client_language != null ? client_language.hashCode() : 0;
+        result = 31 * result + (last_battle_time != null ? last_battle_time.hashCode() : 0);
+        result = 31 * result + (account_id != null ? account_id.hashCode() : 0);
+        result = 31 * result + (created_at != null ? created_at.hashCode() : 0);
+        result = 31 * result + (updated_at != null ? updated_at.hashCode() : 0);
+        result = 31 * result + (privateData != null ? privateData.hashCode() : 0);
+        result = 31 * result + global_rating;
+        result = 31 * result + (clan_id != null ? clan_id.hashCode() : 0);
+        result = 31 * result + (getStats() != null ? stats.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (logout_at != null ? logout_at.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "UserDetails{" +
                 "client_language='" + client_language + '\'' +
                 ", last_battle_time=" + last_battle_time +
                 ", account_id=" + account_id +
@@ -189,7 +154,7 @@ public class UserDetails {
                 ", privateData=" + privateData +
                 ", global_rating=" + global_rating +
                 ", clan_id=" + clan_id +
-                ", statistics=" + statistics +
+                ", stats=" + getStats() +
                 ", nickname='" + nickname + '\'' +
                 ", logout_at=" + logout_at +
                 '}';

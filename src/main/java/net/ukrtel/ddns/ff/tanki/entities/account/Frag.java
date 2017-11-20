@@ -13,15 +13,33 @@ public class Frag {
         return tankId;
     }
 
-    public void setTankId(int tankId) {
-        this.tankId = tankId;
-    }
-
     public int getKills() {
         return kills;
     }
 
-    public void setKills(int kills) {
-        this.kills = kills;
+    @Override
+    public String toString() {
+        return "Frag{" +
+                "tankId=" + tankId +
+                ", kills=" + kills +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Frag frag = (Frag) o;
+
+        if (tankId != frag.tankId) return false;
+        return kills == frag.kills;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = tankId;
+        result = 31 * result + kills;
+        return result;
     }
 }

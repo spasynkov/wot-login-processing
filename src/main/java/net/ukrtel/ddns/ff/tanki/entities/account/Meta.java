@@ -7,13 +7,24 @@ public class Meta {
         return count;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Meta)) return false;
+
+        Meta meta = (Meta) o;
+
+        return count == meta.count;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (count ^ (count >>> 32));
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Meta{" +
                 "count=" + count +
                 '}';
     }

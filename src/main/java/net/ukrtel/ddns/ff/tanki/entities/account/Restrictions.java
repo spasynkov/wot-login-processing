@@ -7,13 +7,24 @@ public class Restrictions {
         return chat_ban_time;
     }
 
-    public void setChat_ban_time(Long chat_ban_time) {
-        this.chat_ban_time = chat_ban_time;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Restrictions)) return false;
+
+        Restrictions that = (Restrictions) o;
+
+        return chat_ban_time != null ? chat_ban_time.equals(that.chat_ban_time) : that.chat_ban_time == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return chat_ban_time != null ? chat_ban_time.hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return "{" +
+        return "Restrictions{" +
                 "chat_ban_time=" + chat_ban_time +
                 '}';
     }
