@@ -31,7 +31,7 @@ public abstract class AbstractStatistic {
     protected long no_damage_direct_hits_received;
     protected long shots;
     protected long explosion_hits_received;
-    protected long tanking_factor;
+    protected double tanking_factor;
 
     public AbstractStatistic(String statisticSectionName, Map<String, Double> stats) {
         this.statisticSectionName = statisticSectionName;
@@ -142,7 +142,7 @@ public abstract class AbstractStatistic {
         return explosion_hits_received;
     }
 
-    public long getTanking_factor() {
+    public double getTanking_factor() {
         return tanking_factor;
     }
 
