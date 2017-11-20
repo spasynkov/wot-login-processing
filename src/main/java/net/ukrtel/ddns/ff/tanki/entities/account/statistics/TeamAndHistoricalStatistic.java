@@ -3,10 +3,10 @@ package net.ukrtel.ddns.ff.tanki.entities.account.statistics;
 import java.util.Map;
 
 public class TeamAndHistoricalStatistic extends StrongholdStatistic {
-    private double avg_damage_blocked;
-    private double avg_damage_assisted;
-    private double avg_damage_assisted_track;
-    private double avg_damage_assisted_radio;
+    protected double avg_damage_blocked;
+    protected double avg_damage_assisted;
+    protected double avg_damage_assisted_track;
+    protected double avg_damage_assisted_radio;
 
     public TeamAndHistoricalStatistic(String statisticSectionName, Map<String, Double> stats) {
         super(statisticSectionName, stats);

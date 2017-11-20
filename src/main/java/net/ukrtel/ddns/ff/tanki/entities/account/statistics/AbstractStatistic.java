@@ -38,6 +38,114 @@ public abstract class AbstractStatistic {
         populateFields(stats);
     }
 
+    public String getStatisticSectionName() {
+        return statisticSectionName;
+    }
+
+    public long getSpotted() {
+        return spotted;
+    }
+
+    public long getBattles_on_stunning_vehicles() {
+        return battles_on_stunning_vehicles;
+    }
+
+    public long getDirect_hits_received() {
+        return direct_hits_received;
+    }
+
+    public long getExplosion_hits() {
+        return explosion_hits;
+    }
+
+    public long getPiercings_received() {
+        return piercings_received;
+    }
+
+    public long getPiercings() {
+        return piercings;
+    }
+
+    public long getXp() {
+        return xp;
+    }
+
+    public long getSurvived_battles() {
+        return survived_battles;
+    }
+
+    public long getDropped_capture_polongs() {
+        return dropped_capture_polongs;
+    }
+
+    public long getHits_percents() {
+        return hits_percents;
+    }
+
+    public long getDraws() {
+        return draws;
+    }
+
+    public long getBattles() {
+        return battles;
+    }
+
+    public long getDamage_received() {
+        return damage_received;
+    }
+
+    public long getFrags() {
+        return frags;
+    }
+
+    public long getStun_number() {
+        return stun_number;
+    }
+
+    public long getCapture_polongs() {
+        return capture_polongs;
+    }
+
+    public long getStun_assisted_damage() {
+        return stun_assisted_damage;
+    }
+
+    public long getHits() {
+        return hits;
+    }
+
+    public long getBattle_avg_xp() {
+        return battle_avg_xp;
+    }
+
+    public long getWins() {
+        return wins;
+    }
+
+    public long getLosses() {
+        return losses;
+    }
+
+    public long getDamage_dealt() {
+        return damage_dealt;
+    }
+
+    public long getNo_damage_direct_hits_received() {
+        return no_damage_direct_hits_received;
+    }
+
+    public long getShots() {
+        return shots;
+    }
+
+    public long getExplosion_hits_received() {
+        return explosion_hits_received;
+    }
+
+    public long getTanking_factor() {
+        return tanking_factor;
+    }
+
     protected void populateFields(Map<String, Double> stats) {
         List<Field> fields = new LinkedList<>();
         Class classs = this.getClass();
@@ -68,10 +176,13 @@ public abstract class AbstractStatistic {
     }
 
     private void setFieldValue(Field field, Class type, Double value) throws IllegalAccessException {
-        if (type == Long.TYPE) {
-            field.set(this, value.longValue());
-        } else if (type == Integer.TYPE) {
-            field.set(this, value.intValue());
+        String typeName = type.getName();
+        if ("java.lang.Long".equalsIgnoreCase(typeName)
+                || "long".equalsIgnoreCase(typeName)) {
+            field.set(this, value == null ? null : value.longValue());
+        } else if ("java.lang.Integer".equalsIgnoreCase(typeName)
+                || "int".equalsIgnoreCase(typeName)) {
+            field.set(this, value == null ? null : value.intValue());
         } else {
             field.set(this, value);
         }

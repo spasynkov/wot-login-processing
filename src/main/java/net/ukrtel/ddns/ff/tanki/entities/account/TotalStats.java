@@ -1,15 +1,15 @@
 package net.ukrtel.ddns.ff.tanki.entities.account;
 
-import net.ukrtel.ddns.ff.tanki.entities.account.statistics.Statistics;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.AbstractStatistic;
 
 import java.util.List;
 
 public class TotalStats {
     private int trees_cut;
-    private List<Statistics> statistics;
+    private List<AbstractStatistic> statistics;
     private List<Frag> frags;
 
-    public TotalStats(int trees_cut, List<Statistics> statistics, List<Frag> frags) {
+    public TotalStats(int trees_cut, List<AbstractStatistic> statistics, List<Frag> frags) {
         this.trees_cut = trees_cut;
         this.statistics = statistics;
         this.frags = frags;
@@ -23,11 +23,11 @@ public class TotalStats {
         this.trees_cut = trees_cut;
     }
 
-    public List<Statistics> getStatistics() {
+    public List<AbstractStatistic> getStatistics() {
         return statistics;
     }
 
-    public void setStatistics(List<Statistics> statistics) {
+    public void setStatistics(List<AbstractStatistic> statistics) {
         this.statistics = statistics;
     }
 

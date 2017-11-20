@@ -1,7 +1,10 @@
 package net.ukrtel.ddns.ff.tanki.entities.account;
 
 import com.google.gson.annotations.SerializedName;
-import net.ukrtel.ddns.ff.tanki.entities.account.statistics.Statistics;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.AbstractStatistic;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.CompanyAndClanStatistic;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.StrongholdStatistic;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.TeamAndHistoricalStatistic;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class UserDetails {
     private int global_rating;
     private Long clan_id;
     private Map<String, Object> statistics;
+    private TotalStats stats;
     private String nickname;
     private Long logout_at;
 
@@ -111,31 +115,47 @@ public class UserDetails {
         this.clan_id = clan_id;
     }
 
-    public TotalStats getStatistics() {
-        int trees_cut = 0;
-        List<Statistics> stats = new LinkedList<>();
-        ;
-        List<Frag> frags = new LinkedList<>();
+    public TotalStats getStats() {
+        if (stats == null) {
+            int trees_cut = 0;
+            List<AbstractStatistic> statsData = new LinkedList<>();
+            List<Frag> frags = new LinkedList<>();
 
-        String key;
-        Object value;
-        for (Map.Entry<String, Object> entry : statistics.entrySet()) {
-            key = entry.getKey();
-            value = entry.getValue();
-            if ("trees_cut".equalsIgnoreCase(key)) trees_cut = (int) value;
-            else if ("frags".equalsIgnoreCase(key)) {
-                frags = ((Map<String, Integer>) value).entrySet().stream()
-                        .map(x -> new Frag(Integer.valueOf(x.getKey()), x.getValue()))
-                        .collect(Collectors.toList());
-            } else {
+            String key;
+            Object value;
+            for (Map.Entry<String, Object> entry : statistics.entrySet()) {
+                key = entry.getKey();
+                value = entry.getValue();
+                if ("trees_cut".equalsIgnoreCase(key)) trees_cut = ((Double) value).intValue();
+                else if ("frags".equalsIgnoreCase(key)) {
+                    frags = ((Map<String, Double>) value).entrySet().stream()
+                            .map(x -> new Frag(Integer.valueOf(x.getKey()), x.getValue().intValue()))
+                            .collect(Collectors.toList());
+                } else {
                     /*stats = ((Map<String, Object>) value).entrySet().stream()
                             .map(x -> new Statistics(x.getKey(), (Map<String, Integer>)x.getValue()))
                             .collect(Collectors.toList());*/
-                //stats.add(new Statistics(key, (Map<String, Double>) value));
+                    //stats.add(new Statistics(key, (Map<String, Double>) value));
+                    if ("all".equalsIgnoreCase(key)
+                            || "team".equalsIgnoreCase(key)
+                            || "regular_team".equalsIgnoreCase(key)
+                            || "historical".equalsIgnoreCase(key)) {
+                        statsData.add(new TeamAndHistoricalStatistic(key, (Map<String, Double>) value));
+                    } else if ("stronghold_skirmish".equalsIgnoreCase(key)
+                            || "stronghold_defense".equalsIgnoreCase(key)) {
+                        statsData.add(new StrongholdStatistic(key, (Map<String, Double>) value));
+                    } else if ("clan".equalsIgnoreCase(key)
+                            || "company".equalsIgnoreCase(key)) {
+                        statsData.add(new CompanyAndClanStatistic(key, (Map<String, Double>) value));
+                    } else {
+                        throw new RuntimeException("Can't recognize stats with name '" + key + "'!");
+                    }
+                }
             }
-        }
 
-        return new TotalStats(trees_cut, stats, frags);
+            stats = new TotalStats(trees_cut, statsData, frags);
+        }
+        return stats;
     }
 
     public void setStatistics(Map<String, Object> statistics) {
