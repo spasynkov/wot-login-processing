@@ -2,7 +2,10 @@ package net.ukrtel.ddns.ff.tanki.entities.account;
 
 import com.google.gson.Gson;
 import net.ukrtel.ddns.ff.tanki.entities.account.statistics.AbstractStatistic;
+import net.ukrtel.ddns.ff.tanki.entities.account.statistics.TeamAndHistoricalStatistic;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +15,12 @@ public class JsonToWotAccountInfoResponseTest {
 
     private final Gson gson = new Gson();
     private final WotAccountInfoResponse parsedResponse = gson.fromJson(jsonString, WotAccountInfoResponse.class);
+
+    private final User user = parsedResponse.getUsersData().get(0);
+    private final PrivateData privateData = user.getDetails().getPrivateData();
+    private final TotalStats stats = user.getDetails().getStats();
+
+    private final double delta = 0.000000001;
 
     @Test
     public void statusAndMetaTest() throws Exception {
@@ -24,7 +33,6 @@ public class JsonToWotAccountInfoResponseTest {
 
     @Test
     public void mainUserDataTest() throws Exception {
-        User user = parsedResponse.getUsersData().get(0);
         assertEquals("6853373", user.getId());
 
         UserDetails userDetails = user.getDetails();
@@ -40,12 +48,84 @@ public class JsonToWotAccountInfoResponseTest {
     }
 
     @Test
-    public void jsonToWotAccountInfoResponseTest() throws Exception {
-        //LinkedTreeMap map = gson.fromJson(json, LinkedTreeMap.class);
-        //System.out.println(parsedResponse);
+    public void privateUserSectionTest() throws Exception {
+        assertEquals(315, (long) privateData.getGold());
+        assertEquals(5600, (long) privateData.getFree_xp());
+        assertEquals(null, privateData.getBan_time());
+        assertEquals(false, privateData.isBoundToPhone());
+        assertEquals(false, privateData.isPremium());
+        assertEquals(204747, (long) privateData.getCredits());
+        assertEquals(0, (long) privateData.getPremium_expires_at());
+        assertEquals(0, (long) privateData.getBonds());
+        assertEquals(191089, (long) privateData.getBattle_life_time());
+        assertEquals(null, privateData.getBan_info());
 
-        AbstractStatistic abstractStatistic = parsedResponse.getUsersData().get(0).getDetails().getStats().getStatistics().get(1);
-        assertEquals("all", abstractStatistic.getStatisticSectionName());
-        assertEquals(991, abstractStatistic.getBattles());
+        Restrictions restrictions = privateData.getRestrictions();
+        assertEquals(null, restrictions.getChat_ban_time());
+    }
+
+    @Test
+    public void statisticTest() throws Exception {
+        assertEquals(8, stats.getStatisticsList().size());
+        assertEquals(226, stats.getTrees_cut());
+    }
+
+    @Test
+    public void fragsInStatisticTest() throws Exception {
+        List<Frag> frags = stats.getFrags();
+
+        assertEquals(106, frags.size());
+
+        assertEquals(new Frag(8017, 3), frags.get(3));
+        assertEquals(new Frag(1825, 7), frags.get(17));
+        assertEquals(new Frag(257, 1), frags.get(57));
+        assertEquals(new Frag(7505, 10), frags.get(105));
+    }
+
+    @Test
+    public void allSectionStatisticTest() throws Exception {
+        AbstractStatistic s = stats.getStatisticsList().get(1);
+        assertEquals(TeamAndHistoricalStatistic.class, s.getClass());
+
+        TeamAndHistoricalStatistic stat = (TeamAndHistoricalStatistic) s;
+
+        assertEquals("all", stat.getStatisticSectionName());
+
+        assertEquals(924, stat.getSpotted());
+        assertEquals(0, stat.getBattles_on_stunning_vehicles());
+        assertEquals(779, stat.getMax_xp());
+        assertEquals(37.77, stat.getAvg_damage_blocked(), delta);
+        assertEquals(3278, stat.getDirect_hits_received());
+        assertEquals(70, stat.getExplosion_hits());
+        assertEquals(2236, stat.getPiercings_received());
+        assertEquals(1288, stat.getPiercings());
+        assertEquals(6401, (int) stat.getMax_damage_tank_id());
+        assertEquals(140490, stat.getXp());
+        assertEquals(155, stat.getSurvived_battles());
+        assertEquals(212, stat.getDropped_capture_points());
+        assertEquals(36, stat.getHits_percents());
+        assertEquals(10, stat.getDraws());
+        assertEquals(6401, (int) stat.getMax_xp_tank_id());
+        assertEquals(991, stat.getBattles());
+        assertEquals(154498, stat.getDamage_received());
+        assertEquals(60.37, stat.getAvg_damage_assisted(), delta);
+        assertEquals(2353, (long) stat.getMax_frags_tank_id());
+        assertEquals(4.52, stat.getAvg_damage_assisted_track(), delta);
+        assertEquals(456, stat.getFrags());
+        assertEquals(0, stat.getStun_number());
+        assertEquals(55.86, stat.getAvg_damage_assisted_radio(), delta);
+        assertEquals(1139, stat.getCapture_points());
+        assertEquals(0, stat.getStun_assisted_damage());
+        assertEquals(868, stat.getMax_damage());
+        assertEquals(3326, stat.getHits());
+        assertEquals(142, stat.getBattle_avg_xp());
+        assertEquals(442, stat.getWins());
+        assertEquals(539, stat.getLosses());
+        assertEquals(107983, stat.getDamage_dealt());
+        assertEquals(1042, stat.getNo_damage_direct_hits_received());
+        assertEquals(5, stat.getMax_frags());
+        assertEquals(9288, stat.getShots());
+        assertEquals(29, stat.getExplosion_hits_received());
+        assertEquals(0.21, stat.getTanking_factor(), delta);
     }
 }
