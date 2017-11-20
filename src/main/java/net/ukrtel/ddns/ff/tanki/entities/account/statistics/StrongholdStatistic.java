@@ -80,14 +80,14 @@ public class StrongholdStatistic extends AbstractStatistic {
                 ", piercings=" + piercings +
                 ", xp=" + xp +
                 ", survived_battles=" + survived_battles +
-                ", dropped_capture_polongs=" + dropped_capture_polongs +
+                ", dropped_capture_points=" + dropped_capture_points +
                 ", hits_percents=" + hits_percents +
                 ", draws=" + draws +
                 ", battles=" + battles +
                 ", damage_received=" + damage_received +
                 ", frags=" + frags +
                 ", stun_number=" + stun_number +
-                ", capture_polongs=" + capture_polongs +
+                ", capture_points=" + capture_points +
                 ", stun_assisted_damage=" + stun_assisted_damage +
                 ", hits=" + hits +
                 ", battle_avg_xp=" + battle_avg_xp +

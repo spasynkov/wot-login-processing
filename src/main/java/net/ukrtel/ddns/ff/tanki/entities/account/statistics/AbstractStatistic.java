@@ -14,14 +14,14 @@ public abstract class AbstractStatistic {
     protected long piercings;
     protected long xp;
     protected long survived_battles;
-    protected long dropped_capture_polongs;
+    protected long dropped_capture_points;
     protected long hits_percents;
     protected long draws;
     protected long battles;
     protected long damage_received;
     protected long frags;
     protected long stun_number;
-    protected long capture_polongs;
+    protected long capture_points;
     protected long stun_assisted_damage;
     protected long hits;
     protected long battle_avg_xp;
@@ -74,8 +74,8 @@ public abstract class AbstractStatistic {
         return survived_battles;
     }
 
-    public long getDropped_capture_polongs() {
-        return dropped_capture_polongs;
+    public long getDropped_capture_points() {
+        return dropped_capture_points;
     }
 
     public long getHits_percents() {
@@ -102,8 +102,8 @@ public abstract class AbstractStatistic {
         return stun_number;
     }
 
-    public long getCapture_polongs() {
-        return capture_polongs;
+    public long getCapture_points() {
+        return capture_points;
     }
 
     public long getStun_assisted_damage() {

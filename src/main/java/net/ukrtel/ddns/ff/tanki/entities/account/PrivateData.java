@@ -45,7 +45,7 @@ public class PrivateData {
         this.ban_time = ban_time;
     }
 
-    public boolean isIs_bound_to_phone() {
+    public boolean isBoundToPhone() {
         return is_bound_to_phone;
     }
 
@@ -53,7 +53,7 @@ public class PrivateData {
         this.is_bound_to_phone = is_bound_to_phone;
     }
 
-    public boolean isIs_premium() {
+    public boolean isPremium() {
         return is_premium;
     }
 

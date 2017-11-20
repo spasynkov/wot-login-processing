@@ -23,7 +23,7 @@ public class TotalStats {
         this.trees_cut = trees_cut;
     }
 
-    public List<AbstractStatistic> getStatistics() {
+    public List<AbstractStatistic> getStatisticsList() {
         return statistics;
     }
 
