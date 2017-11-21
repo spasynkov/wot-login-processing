@@ -16,7 +16,7 @@ public class JsonToWotAccountInfoResponseTest {
     private final Gson gson = new Gson();
     private final WotAccountInfoResponse parsedResponse = gson.fromJson(jsonString, WotAccountInfoResponse.class);
 
-    private final User user = parsedResponse.getUsersData().get(0);
+    private final User user = parsedResponse.getUsers().get(0);
     private final PrivateData privateData = user.getDetails().getPrivateData();
     private final TotalStats stats = user.getDetails().getStats();
 

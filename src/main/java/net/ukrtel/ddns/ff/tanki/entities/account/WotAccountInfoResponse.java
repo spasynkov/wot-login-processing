@@ -18,7 +18,7 @@ public class WotAccountInfoResponse {
         return meta;
     }
 
-    public List<User> getUsersData() {
+    public List<User> getUsers() {
         if (usersData == null) {
             usersData = data.entrySet().stream()
                     .map(x -> new User(x.getKey(), x.getValue()))
@@ -36,14 +36,14 @@ public class WotAccountInfoResponse {
 
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (meta != null ? !meta.equals(that.meta) : that.meta != null) return false;
-        return getUsersData() != null ? usersData.equals(that.usersData) : that.usersData == null;
+        return getUsers() != null ? usersData.equals(that.usersData) : that.usersData == null;
     }
 
     @Override
     public int hashCode() {
         int result = status != null ? status.hashCode() : 0;
         result = 31 * result + (meta != null ? meta.hashCode() : 0);
-        result = 31 * result + (getUsersData() != null ? usersData.hashCode() : 0);
+        result = 31 * result + (getUsers() != null ? usersData.hashCode() : 0);
         return result;
     }
 
@@ -52,7 +52,7 @@ public class WotAccountInfoResponse {
         return "WotAccountInfoResponse{" +
                 "status='" + status + '\'' +
                 ", meta=" + meta +
-                ", usersData=" + getUsersData() +
+                ", usersData=" + getUsers() +
                 '}';
     }
 }
